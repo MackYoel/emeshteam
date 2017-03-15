@@ -15,6 +15,7 @@ function continueLike(fbData){
 	    $.post(window.location.href, fbData).done(function(data){
 	        window.location.href = '/'
 	    }).fail(function(err){
+	    	console.log('err:', err)
 	    	alert('Oops! esto es embarazoso, comuníquese con el admin');
 	    });
 	}
