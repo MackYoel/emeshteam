@@ -10,13 +10,13 @@ from project.settings import APP_NAME
 from .models import Person, Score
 from main.utils import sort_by_score
 import json
-import time
+# import time
 from random import randint
 
 
 @login_required
 def home(req):
-    file_version = time.time()
+    # file_version = time.time()
     app_name = APP_NAME
     users = Person.objects.all()
     return render(req, 'main/home.html', locals())
@@ -47,12 +47,15 @@ def logout_handler(request):
     return redirect(reverse('main:LoginHandler'))
 
 
+@login_required
 def lunch(request):
+    app_name = APP_NAME
     users = Person.objects.all()
     users = sorted(users, key=sort_by_score, reverse=True)
     return render(request, 'main/lunch.html', locals())
 
 
+@login_required
 def generate_score(request):
     user = request.user
     if not user.has_score:
