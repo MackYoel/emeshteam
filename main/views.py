@@ -7,16 +7,18 @@ from .forms import PersonForm
 from django.http import HttpResponse
 from django.contrib.auth import login, logout
 from project.settings import APP_NAME
-from .models import Person
+from .models import Person, Score
+from main.utils import sort_by_score
 import json
 import time
+from random import randint
 
 
 @login_required
 def home(req):
     file_version = time.time()
     app_name = APP_NAME
-    user = Person.objects.get(pk=req.user.pk)
+    users = Person.objects.all()
     return render(req, 'main/home.html', locals())
 
 
@@ -43,3 +45,17 @@ class LoginHandler(View):
 def logout_handler(request):
     logout(request)
     return redirect(reverse('main:LoginHandler'))
+
+
+def lunch(request):
+    users = Person.objects.all()
+    users = sorted(users, key=sort_by_score, reverse=True)
+    return render(request, 'main/lunch.html', locals())
+
+
+def generate_score(request):
+    user = request.user
+    if not user.has_score:
+        score = Score(person=user, score=randint(1, 100))
+        score.save()
+    return redirect(reverse('main:lunch'))
