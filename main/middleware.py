@@ -4,12 +4,12 @@ from django.contrib.auth import login
 from main.models import Person
 
 
-class DevMiddleware(MiddlewareMixin):
+class FakeSession(MiddlewareMixin):
 
     def process_request(self, request):
         if not request.user.is_authenticated():
             try:
-                user = User.objects.get(pk=13)
+                user = User.objects.get(email='yoel.zalas@gmail.com')
                 login(request, user)
             except User.DoesNotExist:
                 pass

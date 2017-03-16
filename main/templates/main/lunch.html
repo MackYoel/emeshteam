@@ -9,7 +9,14 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 	<style>
 		.go-to{
-			color: #43a047;
+			color: #388e3c;
+		}
+		.highlight{
+			font-size: 18px;
+
+		}
+		li p{
+			color: #8bc34a;
 		}
 	</style>
 </head>
@@ -24,28 +31,28 @@
    	<div class="col s6">  	
 		<ul class="collection">
 		{% for u in users %}
-		    <li class="collection-item avatar">
+		    <li class="collection-item avatar {% if u.pk == user.pk %}light-green lighten-4{% endif %}">
 		      <img src="{{u.picture}}" alt="" class="circle">
 		      <span class="title">{{u.first_name}}</span>
 			{% if forloop.counter < 3 and u.score %}
-		      <p class="go-to">puntaje: {{u.score|default_if_none:"---"}}</p>
+		      <p>puntaje: <strong class="go-to">{{u.score|default_if_none:"---"}}</strong></p>
 			{% else %}
-		      <p>puntaje: {{u.score|default_if_none:"---"}}</p>
+		      <p>puntaje: <strong>{{u.score|default_if_none:"---"}}</strong></p>
 			{% endif %}
 		    </li>
 		{% endfor %}
 		</ul>
    </div>
       <div class="col s6 center-align">
-      	{% if not user.score %}
-      	<a href="/generate-score/" class="waves-effect waves-light btn light-green darken-1"><i class="material-icons right">shuffle</i>generar puntuación</a>
-      	{% endif %}
-      	<br><br>
       	<a href="." class="btn-floating light-blue darken-2"><i class="material-icons">replay</i></a>
       	<br>recargar
+      	<br><br>
+      	<br><br>
+      	{% if not user.score %}
+      	<a href="/generate-score/" class="waves-effect waves-light btn deep-orange darken-4"><i class="material-icons right">shuffle</i>generar</a>
+      	{% endif %}
       </div>
  </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.2/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 </body>
